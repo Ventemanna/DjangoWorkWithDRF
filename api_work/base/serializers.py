@@ -1,20 +1,20 @@
 from rest_framework import serializers
 
-class AddressSerializer(serializers.Serializer):
-    country = serializers.CharField(max_length=50)
-    city = serializers.CharField(max_length=100)
-    street = serializers.CharField(max_length=100)
+from .models import *
 
-class SupplierSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=100)
-    address_id = serializers.CharField(source='address.id',max_length=100)
-    phone_number = serializers.CharField(max_length=7)
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ['id', 'country', 'city', 'street']  # Явно перечисляем нужные поля
 
-class ProductSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=120)
-    category = serializers.CharField(max_length=50)
-    price = serializers.DecimalField(max_digits=10, decimal_places=2)
-    available_stock = serializers.IntegerField()
-    last_update = serializers.DateTimeField()
-    supplier_id = serializers.CharField(source='supplier.id', max_length=100)
-    image_id = serializers.ImageField()
+class SupplierSerializer(serializers.ModelSerializer):
+    address = AddressSerializer(read_only=True)
+
+    class Meta:
+        model = Supplier
+        fields = ['name', 'phone_number', 'address']
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
