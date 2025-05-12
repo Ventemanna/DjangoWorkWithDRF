@@ -14,28 +14,8 @@ class Address(models.Model):
 class Supplier(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=120)
-    address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
+    address_id = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
     phone_number = models.CharField(max_length=7)
-
-    def __str__(self):
-        return f"{self.name}"
-
-class Images(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    image = models.BinaryField()
-
-    def __str__(self):
-        return f"{self.id}"
-
-class Product(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=120)
-    category = models.CharField(max_length=50)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    available_stock = models.PositiveIntegerField(default=0)
-    last_update = models.DateTimeField(auto_now=True)
-    supplier_id = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    image_id = models.ForeignKey(Images, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -57,3 +37,23 @@ class Client(models.Model):
 
     def __str__(self):
         return f"{self.client_name} {self.client_surname}"
+
+class Images(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    image = models.BinaryField()
+
+    def __str__(self):
+        return f"{self.id}"
+
+class Product(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=120)
+    category = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    available_stock = models.PositiveIntegerField(default=0)
+    last_update = models.DateTimeField(auto_now=True)
+    supplier_id = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    image_id = models.ForeignKey(Images, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name}"

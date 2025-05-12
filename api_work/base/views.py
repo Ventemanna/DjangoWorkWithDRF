@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 # Create your views here.
 
 from .models import *
-from .serializers import AddressSerializer, SupplierSerializer
+from .serializers import AddressSerializer, SupplierSerializer, ProductSerializer
+
 
 class GetAddressView(APIView):
     def get(self, request):
@@ -16,4 +17,10 @@ class GetSupplierView(APIView):
     def get(self, request):
         queryset = Supplier.objects.all()
         serializer_for_queryset = SupplierSerializer(instance=queryset, many=True)
+        return Response(serializer_for_queryset.data)
+
+class GetProductView(APIView):
+    def get(self, request):
+        queryset = Product.objects.all()
+        serializer_for_queryset = ProductSerializer(instance=queryset, many=True)
         return Response(serializer_for_queryset.data)
