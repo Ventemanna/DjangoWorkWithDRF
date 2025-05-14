@@ -4,7 +4,7 @@ from rest_framework import viewsets
 # Create your views here.
 
 from .models import *
-from .serializers import AddressSerializer, SupplierSerializer, ProductSerializer
+from .serializers import AddressSerializer, SupplierSerializer, ProductSerializer, ClientSerializer
 
 
 class AddressViewSet(viewsets.ModelViewSet):
@@ -18,3 +18,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer

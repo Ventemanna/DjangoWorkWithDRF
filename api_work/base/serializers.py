@@ -5,7 +5,7 @@ from .models import *
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ['id', 'country', 'city', 'street']  # Явно перечисляем нужные поля
+        fields = ['id', 'country', 'city', 'street']
 
 class SupplierSerializer(serializers.ModelSerializer):
     address = AddressSerializer(read_only=True)
@@ -17,4 +17,9 @@ class SupplierSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
+        fields = '__all__'
+
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
         fields = '__all__'

@@ -3,10 +3,11 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register(r'api/address', views.AddressViewSet)
-router.register(r'api/product', views.ProductViewSet)
-router.register(r'api/supplier', views.SupplierViewSet)
+router.register(r'address', views.AddressViewSet)
+router.register(r'product', views.ProductViewSet)
+router.register(r'supplier', views.SupplierViewSet)
+router.register(r'client', views.ClientViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/v1/', include(router.urls)),
 ]
