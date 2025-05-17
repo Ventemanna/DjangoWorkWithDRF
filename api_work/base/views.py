@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from rest_framework.response import Response
 from rest_framework import viewsets
-# Create your views here.
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from .pagination import SimpleOptionalPagination
 
 from .models import *
 from .serializers import AddressSerializer, SupplierSerializer, ProductSerializer, ClientSerializer
-
 
 class AddressViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all()
@@ -20,5 +20,32 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 class ClientViewSet(viewsets.ModelViewSet):
-    queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    queryset = Client.objects.all()
+
+    def get_queryset(self):
+        queryset = Client.objects.all()
+        name = self.request.query_params.get('name')
+        surname = self.request.query_params.get('surname')
+        if name:
+            queryset = queryset.filter(client_name__icontains=name)
+        if surname:
+            queryset = queryset.filter(client_surname__icontains=surname)
+        return queryset
+
+    @action(detail=True, methods=['patch'])
+    def address(self, request, pk=None):
+        client = self.get_object()
+        serializer = AddressSerializer(data=request.data)
+
+        if serializer.is_valid():
+            address, _ = Address.objects.update_or_create(
+                id=client.address_id_id,
+                defaults=serializer.validated_data
+            )
+            client.address_id = address
+            client.save()
+
+            return Response(ClientSerializer(client).data)
+
+        return Response(serializer.errors, status=400)

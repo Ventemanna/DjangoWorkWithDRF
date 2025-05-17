@@ -23,3 +23,4 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = '__all__'
+        http_methods = ['get', 'post', 'delete']
