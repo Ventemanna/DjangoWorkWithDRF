@@ -12,7 +12,7 @@ class SupplierSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Supplier
-        fields = ['name', 'phone_number', 'address']
+        fields = "__all__"
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:

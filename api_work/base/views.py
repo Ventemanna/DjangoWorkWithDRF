@@ -15,6 +15,21 @@ class SupplierViewSet(viewsets.ModelViewSet):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
+    @action(detail=True, methods=['patch'])
+    def address(self, request, pk=None):
+        supplier = self.get_object()
+        serializer = AddressSerializer(data=request.data)
+        if serializer.is_valid():
+            address, _ = Address.objects.update_or_create(
+                id=supplier.address_id,
+                defaults=serializer.validated_data,
+            )
+            supplier.address = address
+            supplier.save()
+            return Response(SupplierSerializer(supplier).data)
+
+        return Response(serializer.errors, status=400)
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
