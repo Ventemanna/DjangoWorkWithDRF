@@ -50,8 +50,8 @@ class Product(models.Model):
     name = models.CharField(max_length=120)
     category = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    available_stock = models.PositiveIntegerField(default=0)
-    last_update = models.DateTimeField(auto_now=True)
+    available_stock = models.PositiveIntegerField()
+    last_update = models.DateTimeField(auto_now=True, blank=False)
     supplier_id = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     image_id = models.ForeignKey(Images, on_delete=models.SET_NULL, null=True, blank=True)
 

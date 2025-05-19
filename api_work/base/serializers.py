@@ -24,3 +24,6 @@ class ClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = '__all__'
         http_methods = ['get', 'post', 'delete']
+
+class CountSerializer(serializers.Serializer):
+    count = serializers.IntegerField()

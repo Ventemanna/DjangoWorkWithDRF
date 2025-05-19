@@ -1,3 +1,4 @@
+from django.db.models import F
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -5,7 +6,7 @@ from rest_framework.response import Response
 from .pagination import SimpleOptionalPagination
 
 from .models import *
-from .serializers import AddressSerializer, SupplierSerializer, ProductSerializer, ClientSerializer
+from .serializers import AddressSerializer, SupplierSerializer, ProductSerializer, ClientSerializer, CountSerializer
 
 class AddressViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all()
@@ -33,6 +34,21 @@ class SupplierViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    @action(detail=True, methods=['patch'])
+    def purchase(self, request, pk=None):
+        product = self.get_object()
+        serializer = CountSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+
+        count = serializer.validated_data['count']
+        if product.available_stock < count:
+            return Response({"error": "Not enough products in stock"}, status=400)
+        Product.objects.filter(id=product.id).update(available_stock=F('available_stock') - count)
+        product.refresh_from_db()
+        return Response(ProductSerializer(product).data)
 
 class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
