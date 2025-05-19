@@ -27,3 +27,8 @@ class ClientSerializer(serializers.ModelSerializer):
 
 class CountSerializer(serializers.Serializer):
     count = serializers.IntegerField()
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = '__all__'

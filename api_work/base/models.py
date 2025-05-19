@@ -38,7 +38,7 @@ class Client(models.Model):
     def __str__(self):
         return f"{self.client_name} {self.client_surname}"
 
-class Images(models.Model):
+class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     image = models.BinaryField()
 
@@ -53,7 +53,7 @@ class Product(models.Model):
     available_stock = models.PositiveIntegerField()
     last_update = models.DateTimeField(auto_now=True, blank=False)
     supplier_id = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    image_id = models.ForeignKey(Images, on_delete=models.SET_NULL, null=True, blank=True)
+    image_id = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name}"
