@@ -7,7 +7,6 @@ from .models import *
 from .serializers import AddressSerializer, SupplierSerializer, ProductSerializer, ClientSerializer, CountSerializer, \
     ImageSerializer
 
-
 class AddressViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
