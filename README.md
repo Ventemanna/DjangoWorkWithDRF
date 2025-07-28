@@ -2,6 +2,10 @@
 
 Проект представялет из себя backend версию магазина бытовой техники, работающего с API. 
 
+Проект будет доступен по адресу: http://localhost:8000
+
+Swagger-документация (если есть): http://localhost:8000/swagger/
+
 ## Функциональность
 
 - Регистрация и аутентификация пользователей
@@ -62,21 +66,9 @@ git clone git@github.com:Ventemanna/WorkWithApi.git
 cd WorkWithApi/api_work
 ```
 
-### 2. Подключение виртуального окружения
+### 2. Запуск контейнера
 
 ```bash
-python3 -m venv .venv
-source venv/bin/activate
-```
-
-### 4. Скачивание зависимостей
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Запуск проекта
-
-```bash
-python manage.py runserver
+docker compose build
+docker compose up
 ```
