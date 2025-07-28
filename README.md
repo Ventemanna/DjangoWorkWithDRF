@@ -63,7 +63,7 @@ Swagger-документация (если есть): http://localhost:8000/swag
 
 ```bash
 git clone git@github.com:Ventemanna/WorkWithApi.git
-cd WorkWithApi/api_work
+cd WorkWithApi
 ```
 
 ### 2. Запуск контейнера
